@@ -1,23 +1,30 @@
+// imports
+import { MediaPlayer } from './MediaPlayer.js';
+import { AutoPlay } from './plugins/AutoPlay.js';
+// import {  } from './plugins/AutoPause.js';
+
+//Get the elements
 const video = document.querySelector('video');
-const pausePlay = document.querySelector('button');
+const pausePlay = document.querySelector('#playPause');
+const muteUnmute = document.querySelector('#muteUnmute');
 
-class MediaPlayer {
-	constructor(someVideo) {
-		this.video = someVideo;
-	}
-}
-MediaPlayer.prototype.playPause = function () {
-	if (this.video.paused) {
-		this.video.play();
-		console.log('play');
-	} else {
-		this.video.pause();
-		console.log('pause');
-	}
-};
+//News instances
+const player = new MediaPlayer({ el: video, plugins: [new AutoPlay()] });
 
-const player = new MediaPlayer(video);
-
+//Events
 pausePlay.addEventListener('click', () => {
-	player.playPause();
+	if (player.media.paused) {
+		player.play();
+	} else {
+		player.pause();
+	}
+});
+
+muteUnmute.addEventListener('click', () => {
+	console.log(player.media.muted);
+	if (player.media.muted) {
+		player.unmute();
+	} else {
+		player.mute();
+	}
 });
